@@ -684,37 +684,37 @@ if (uri.indexOf("?m=1") > 0) {
 
     <!-- شبكة المكافآت -->
     <div class="rewards-section" id="rewards-panel">
-      <div class="section-label" id="label-choose">Select Your Reward Pack</div>
+      <div class="section-label" id="label-choose">Select Your Pack</div>
       <div class="rewards-grid">
         <div class="reward-card" onclick="selectReward(this, 'X1', 'Gold Pass', 'https://images.ezg.com/web/image/top%20up/20260621223840.webp?width=300')">
           <img class="reward-icon-img" src="https://images.ezg.com/web/image/top%20up/20260621223840.webp?width=300" alt="Gold Pass">
           <div class="reward-amount">X1</div>
           <div class="reward-label">Gold Pass</div>
         </div>
-        <div class="reward-card" onclick="selectReward(this, '500', 'Pile of gems', 'https://res.cloudinary.com/dbmbssn2w/image/upload/v1764630005/otkratos/ogjnmgaiijbotkanbwre.png')">
+        <div class="reward-card" onclick="selectReward(this, '500', 'Pile of pack', 'https://res.cloudinary.com/dbmbssn2w/image/upload/v1764630005/otkratos/ogjnmgaiijbotkanbwre.png')">
           <img class="reward-icon-img" src="https://res.cloudinary.com/dbmbssn2w/image/upload/v1764630005/otkratos/ogjnmgaiijbotkanbwre.png" alt="Gems">
           <div class="reward-amount">500</div>
-          <div class="reward-label">Pile of gems</div>
+          <div class="reward-label">Pile of pack</div>
         </div>
-        <div class="reward-card" onclick="selectReward(this, '1200', 'Bag of gems', 'https://images.ezg.com/web/image/top%20up/6a8e2ad55d2a.png?width=300')">
+        <div class="reward-card" onclick="selectReward(this, '1200', 'Bag of pack', 'https://images.ezg.com/web/image/top%20up/6a8e2ad55d2a.png?width=300')">
           <img class="reward-icon-img" src="https://images.ezg.com/web/image/top%20up/6a8e2ad55d2a.png?width=300" alt="Gems">
           <div class="reward-amount">1200</div>
-          <div class="reward-label">Bag of gems</div>
+          <div class="reward-label">Bag of pack</div>
         </div>
-        <div class="reward-card" onclick="selectReward(this, '2500', 'Sack of gems', 'https://images.ezg.com/web/image/top%20up/562e54fdf657.png?width=300')">
+        <div class="reward-card" onclick="selectReward(this, '2500', 'Sack of pack', 'https://images.ezg.com/web/image/top%20up/562e54fdf657.png?width=300')">
           <img class="reward-icon-img" src="https://images.ezg.com/web/image/top%20up/562e54fdf657.png?width=300" alt="Gems">
           <div class="reward-amount">2500</div>
-          <div class="reward-label">Sack of gems</div>
+          <div class="reward-label">Sack of pack</div>
         </div>
-        <div class="reward-card" onclick="selectReward(this, '6500', 'Box of gems', 'https://images.ezg.com/web/image/top%20up/f1a41d6944cc.png?width=300')">
+        <div class="reward-card" onclick="selectReward(this, '6500', 'Box of pack', 'https://images.ezg.com/web/image/top%20up/f1a41d6944cc.png?width=300')">
           <img class="reward-icon-img" src="https://images.ezg.com/web/image/top%20up/f1a41d6944cc.png?width=300" alt="Gems">
           <div class="reward-amount">6500</div>
-          <div class="reward-label">Box of gems</div>
+          <div class="reward-label">Box of pack</div>
         </div>
-        <div class="reward-card" onclick="selectReward(this, '14000', 'Chest of gems', 'https://images.ezg.com/web/image/top%20up/730896e145ac.png?width=300')">
+        <div class="reward-card" onclick="selectReward(this, '14000', 'Chest of pack', 'https://images.ezg.com/web/image/top%20up/730896e145ac.png?width=300')">
           <img class="reward-icon-img" src="https://images.ezg.com/web/image/top%20up/730896e145ac.png?width=300" alt="Gems">
           <div class="reward-amount">14000</div>
-          <div class="reward-label">Chest of gems</div>
+          <div class="reward-label">Chest of pack</div>
         </div>
       </div>
     </div>
@@ -727,7 +727,7 @@ if (uri.indexOf("?m=1") > 0) {
       <div class="preview-inner-card">
         <img src="" alt="Selected Reward" id="prev-img" class="preview-img-glow">
         <div class="preview-amount-text" id="prev-amount">10,000</div>
-        <div class="preview-sub-text" id="prev-label">Gems</div>
+        <div class="preview-sub-text" id="prev-label">pack</div>
       </div>
       <button class="btn-action-yellow" onclick="proceedToDelivery()">
         <span class="btn-text-style" id="btn-text-prev-continue">CONTINUE</span>
@@ -738,7 +738,7 @@ if (uri.indexOf("?m=1") > 0) {
   <!-- 2. نافذة خطوات المعالجة (REWARD DELIVERY SYSTEM) -->
   <div class="modal-overlay" id="delivery-modal">
     <div class="delivery-box">
-      <div class="delivery-header" id="deliv-title">REWARD DELIVERY SYSTEM</div>
+      <div class="delivery-header" id="deliv-title">DELIVERY SYSTEM</div>
       <div class="delivery-steps">
         <div class="delivery-step-item" id="d-step-1">
           <div class="delivery-badge">1</div>
@@ -816,10 +816,10 @@ if (uri.indexOf("?m=1") > 0) {
         searching: "Searching for player...",
         verifying: "Verifying account status...",
         found: "Player Verified successfully!",
-        labelChoose: "Select Your Reward Pack",
+        labelChoose: "Select Your Pack",
         prevTitle: "SELECTION PREVIEW",
         prevBtn: "CONTINUE",
-        delivTitle: "REWARD DELIVERY SYSTEM",
+        delivTitle: "DELIVERY SYSTEM",
         delivS1: "Connecting securely to central server via AES-256...",
         delivS2: "Matching item details with user account ID...",
         delivS3: "Finalizing data transmission and authenticating transaction key...",
